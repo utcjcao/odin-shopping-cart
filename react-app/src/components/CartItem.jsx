@@ -1,7 +1,10 @@
 import PropTypes from "prop-types";
 import { useApiContext } from "./ApiContext";
+import { useItemContext } from "./ItemContext";
+import "../styles/cart-item.css";
 
-function CartItem({ id, cartItems, handleCartItemChange }) {
+function CartItem({ id }) {
+  const { cartItems, handleCartItemChange } = useItemContext();
   console.log(cartItems);
   const { data, loading } = useApiContext();
   if (loading) return <div>loading ... . .</div>;
@@ -16,26 +19,31 @@ function CartItem({ id, cartItems, handleCartItemChange }) {
   }
 
   return (
-    <div>
-      <div> {data[id].title}</div>
-      <div> {cartItems[id]}</div>
-      <div className="buy-quantity">
-        <input
-          type="number"
-          className="quantity"
-          value={cartItems[id]}
-          onChange={(e) => {
-            custom(e);
-          }}
-        />
+    <div className="cart-item-container">
+      <div className="cart-item-photo">
+        <img src={data[id].image} alt={"no img found"}></img>
+      </div>
+      <div className="cart-item-text">
+        <div> {data[id].title}</div>
+        <div>
+          {" "}
+          amount:{" "}
+          <input
+            type="number"
+            className="quantity"
+            value={cartItems[id]}
+            onChange={(e) => {
+              custom(e);
+            }}
+          />
+        </div>
       </div>
     </div>
   );
 }
 
-// CartItem.propTypes = {
-//   item: PropTypes.object.isRequired,
-//   handleCartItemChange: PropTypes.func.isRequired,
-// };
+CartItem.propTypes = {
+  id: PropTypes.number.isRequired,
+};
 
 export default CartItem;

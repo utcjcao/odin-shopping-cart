@@ -1,19 +1,21 @@
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
-import PropTypes from "prop-types";
 import { useApiContext } from "../components/ApiContext";
+import { useItemContext } from "../components/ItemContext";
+import "../styles/layout.css";
 
-function Layout({ cartItems }) {
-  const { data, error, loading } = useApiContext();
+function Layout() {
+  const { error, loading } = useApiContext();
+  const { cartItems } = useItemContext();
 
   return (
-    <div>
+    <div className="main-container">
       <Header cartItems={cartItems} />
       <div id="container">
         {loading ? (
-          <div>Loading...</div>
+          <div className="loading-container">LOADING...</div>
         ) : error ? (
-          <div>error: {error}</div>
+          <div className="error-container">ERROR: {error}</div>
         ) : (
           <Outlet />
         )}
@@ -21,9 +23,5 @@ function Layout({ cartItems }) {
     </div>
   );
 }
-
-Layout.propTypes = {
-  cartItems: PropTypes.object.isRequired,
-};
 
 export default Layout;

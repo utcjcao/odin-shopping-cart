@@ -9,7 +9,7 @@ function Error() {
     return (
       <div id="error">
         <Header></Header>
-        <div>404no page</div>
+        <div>{error}</div>
       </div>
     );
   }

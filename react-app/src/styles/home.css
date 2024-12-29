@@ -1,0 +1,25 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    align-items: center;
+    padding-top: 100px;
+}
+
+.home-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+button {
+    font-size: large;
+    font-weight: bold;
+    background-color: white;
+    transition: transform 0.1s ease-in;
+}
+
+button:hover {
+    color: black;
+    transform: scale(1.01);
+}

@@ -1,0 +1,18 @@
+
+
+.cart-item-container {
+    display: grid;
+    grid-template-columns: 1fr 10fr;
+}
+
+.cart-item-photo img {
+    object-fit: contain;
+    width: auto;
+    max-height: 100px;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.cart-item-photo {
+    display: flex;
+}

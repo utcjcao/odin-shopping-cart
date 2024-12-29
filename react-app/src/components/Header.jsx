@@ -1,23 +1,27 @@
 import { Link } from "react-router-dom";
+import "../styles/header.css";
+import { useItemContext } from "./ItemContext";
 
-function Header({ cartItems }) {
+function Header() {
+  const { cartItems } = useItemContext();
   return (
     <div id="header">
-      <div id="title">your store title</div>
+      <div className="header-title">bing bong store</div>
       <nav>
         <ul>
-          <li>
+          <li className="header-list-item">
             <Link to="/">home</Link>
           </li>
-          <li>
-            <Link to="/cart">cart</Link>
-          </li>
-          <li>
+
+          <li className="header-list-item">
             <Link to="/store">store</Link>
+          </li>
+          <li className="header-list-item">
+            <Link to="/cart">cart</Link>
           </li>
         </ul>
       </nav>
-      <div>{Object.values(cartItems).reduce((a, b) => a + b, 0)}</div>
+      <div>{Object.values(cartItems).reduce((a, b) => a + b, 0)} items</div>
     </div>
   );
 }

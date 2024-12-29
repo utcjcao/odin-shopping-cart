@@ -1,7 +1,20 @@
-import PropTypes from "prop-types";
+import { useApiContext } from "../components/ApiContext";
 import CartItem from "../components/CartItem";
+import { useItemContext } from "../components/ItemContext";
+import "../styles/cart.css";
 
-function ShoppingCart({ cartItems, handleCartItemChange }) {
+function ShoppingCart() {
+  const { data } = useApiContext();
+  const { cartItems, handleCartItemChange } = useItemContext();
+
+  const calculateTotal = () => {
+    let total = 0;
+    for (let id in cartItems) {
+      total += cartItems[id] * data[id].price;
+    }
+    return total;
+  };
+
   console.log(cartItems);
   const keysMapped = Object.keys(cartItems).map((key) => {
     return (
@@ -18,14 +31,12 @@ function ShoppingCart({ cartItems, handleCartItemChange }) {
   return (
     <div className="cart-container">
       {keysMapped}
-      <button>buy !</button>
+      <div className="total-container">
+        <div>total: ${calculateTotal()}</div>
+        <button>buy !</button>
+      </div>
     </div>
   );
 }
-
-// ShoppingCart.propTypes = {
-//   cartItems: PropTypes.object.isRequired,
-//   handleCartItemChange: PropTypes.func.isRequired,
-// };
 
 export default ShoppingCart;

@@ -4,32 +4,15 @@ import ShoppingCart from "./pages/ShoppingCart";
 import Store from "./pages/Store";
 import Layout from "./pages/Layout";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { useState } from "react";
 import { ApiStateProvider } from "./components/ApiContext";
+import { ItemStateProvider } from "./components/ItemContext";
+import ItemPage from "./pages/ItemPage";
 
 const App = () => {
-  const [cartItems, setCartItems] = useState({});
-  // cart items: collection of ids, and their quanitites. get data values, etc per component, don't get it here
-  const handleCartItemChange = (id, quantity) => {
-    console.log(id, quantity);
-    if (quantity + cartItems[id] <= 0) {
-      console.log("del");
-      let newItems = { ...cartItems };
-      delete newItems[id];
-      setCartItems(newItems);
-    } else {
-      console.log("hi");
-      setCartItems((prevItems) => ({
-        ...prevItems,
-        [id]: (prevItems[id] || 0) + quantity,
-      }));
-    }
-  };
-
   const routes = [
     {
       path: "/",
-      element: <Layout cartItems={cartItems} />,
+      element: <Layout />,
       errorElement: <Error />,
       children: [
         {
@@ -38,16 +21,15 @@ const App = () => {
         },
         {
           path: "cart",
-          element: (
-            <ShoppingCart
-              cartItems={cartItems}
-              handleCartItemChange={handleCartItemChange}
-            />
-          ),
+          element: <ShoppingCart />,
         },
         {
           path: "store",
-          element: <Store handleCartItemChange={handleCartItemChange} />,
+          element: <Store />,
+        },
+        {
+          path: "store/:id",
+          element: <ItemPage />,
         },
       ],
     },
@@ -56,9 +38,11 @@ const App = () => {
   const router = createBrowserRouter(routes);
 
   return (
-    <ApiStateProvider>
-      <RouterProvider router={router} />
-    </ApiStateProvider>
+    <ItemStateProvider>
+      <ApiStateProvider>
+        <RouterProvider router={router} />
+      </ApiStateProvider>
+    </ItemStateProvider>
   );
 };
 

@@ -1,5 +1,4 @@
-// GlobalStateContext.js
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useContext } from "react";
 import PropTypes from "prop-types";
 import useFetchData from "./useFetchData";
 
