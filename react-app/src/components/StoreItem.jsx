@@ -1,20 +1,25 @@
 import PropTypes from "prop-types";
-import useFetchData from "./useFetchData";
+import { useApiContext } from "./ApiContext";
+import "../styles/store-item.css";
 
-function StoreItem({ id }) {
-  const [data, error, loading] = useFetchData(id);
+function StoreItem({ id, openModal }) {
+  const { data, error, loading } = useApiContext();
   return (
     <>
       {loading ? (
         <div>Loading...</div>
       ) : error == null ? (
-        <div id={id} className="store-item-container" onClick={/* open modal*/}>
+        <div
+          id={id}
+          className="store-item-container"
+          onClick={() => openModal(data[id])}
+        >
           <div className="store-item-photo">
-            <img src={data.image} alt={data.title} />
+            <img src={data[id].image} alt={data[id].title} />
           </div>
           <div className="store-item-text">
-            <div className="store-item-title">{data.title}</div>
-            <div className="store-item-price">{data.price}</div>
+            <div className="store-item-title">{data[id].title}</div>
+            <div className="store-item-price">{data[id].price}</div>
           </div>
         </div>
       ) : (
@@ -26,6 +31,7 @@ function StoreItem({ id }) {
 
 StoreItem.propTypes = {
   id: PropTypes.number,
+  openModal: PropTypes.func,
 };
 
 export default StoreItem;

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function Header() {
+function Header({ cartItems }) {
   return (
     <div id="header">
       <div id="title">your store title</div>
@@ -17,6 +17,7 @@ function Header() {
           </li>
         </ul>
       </nav>
+      <div>{Object.values(cartItems).reduce((a, b) => a + b, 0)}</div>
     </div>
   );
 }

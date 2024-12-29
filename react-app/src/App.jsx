@@ -3,29 +3,25 @@ import Home from "./pages/Home";
 import ShoppingCart from "./pages/ShoppingCart";
 import Store from "./pages/Store";
 import Layout from "./pages/Layout";
-import { BrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useState } from "react";
+import { ApiStateProvider } from "./components/ApiContext";
 
 const App = () => {
   const [cartItems, setCartItems] = useState({});
   // cart items: collection of ids, and their quanitites. get data values, etc per component, don't get it here
-
-  const addCartItem = ({ id, quantity }) => {
-    setCartItems((prevItems) => ({
-      ...prevItems,
-      [id]: prevItems.id + quantity,
-    }));
-  };
-
-  const deleteCartItem = ({ id, quantity }) => {
-    if (quantity >= cartItems.id) {
-      const newItems = { ...cartItems };
-      delete newItems.id;
+  const handleCartItemChange = (id, quantity) => {
+    console.log(id, quantity);
+    if (quantity + cartItems[id] <= 0) {
+      console.log("del");
+      let newItems = { ...cartItems };
+      delete newItems[id];
       setCartItems(newItems);
     } else {
+      console.log("hi");
       setCartItems((prevItems) => ({
         ...prevItems,
-        [id]: prevItems.id - quantity,
+        [id]: (prevItems[id] || 0) + quantity,
       }));
     }
   };
@@ -45,22 +41,25 @@ const App = () => {
           element: (
             <ShoppingCart
               cartItems={cartItems}
-              addCartItem={addCartItem}
-              deleteCartItem={deleteCartItem}
+              handleCartItemChange={handleCartItemChange}
             />
           ),
         },
         {
           path: "store",
-          element: <Store addCartItem={addCartItem} />,
+          element: <Store handleCartItemChange={handleCartItemChange} />,
         },
       ],
     },
   ];
 
-  const router = BrowserRouter(routes);
+  const router = createBrowserRouter(routes);
 
-  return <RouterProvider router={router} />;
+  return (
+    <ApiStateProvider>
+      <RouterProvider router={router} />
+    </ApiStateProvider>
+  );
 };
 
 export default App;

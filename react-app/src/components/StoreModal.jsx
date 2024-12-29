@@ -1,11 +1,19 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-function StoreModal({ data, closeModal }) {
+function StoreModal({ data, closeModal, handleCartItemChange }) {
   const [quantity, setQuantity] = useState(1);
-  const handleChange = (event) => {
-    setQuantity(parseInt(event.target.value));
+
+  function custom(amt) {
+    if (amt >= 1) {
+      setQuantity(amt);
+    }
+  }
+  const buy = () => {
+    handleCartItemChange(data.id, quantity);
+    closeModal();
   };
+
   return (
     <div className="store-item-modal">
       <div className="store-item-photo">
@@ -15,39 +23,30 @@ function StoreModal({ data, closeModal }) {
         <div className="store-item-title">{data.title}</div>
         <div className="store-item-price">{data.price}</div>
         <div className="buy-quantity">
-          <button
-            className="minus"
-            onClick={setQuantity((prev) => {
-              prev - 1;
-            })}
-          >
-            -
-          </button>
           <input
-            type="text"
+            type="number"
             className="quantity"
             value={quantity}
-            onChange={handleChange}
+            onChange={(e) => {
+              custom(parseInt(e.target.value));
+            }}
             min="1"
           />
-          <button
-            className="plus"
-            onClick={setQuantity((prev) => {
-              prev + 1;
-            })}
-          >
-            +
-          </button>
         </div>
         <div
           className="cancel-button"
           onClick={() => {
-            closeModal;
+            closeModal();
           }}
         >
           cancel
         </div>
-        <div className="buy-button" onClick={() => {}}>
+        <div
+          className="buy-button"
+          onClick={() => {
+            buy();
+          }}
+        >
           buy
         </div>
       </div>
@@ -58,6 +57,7 @@ function StoreModal({ data, closeModal }) {
 StoreModal.propTypes = {
   data: PropTypes.object,
   closeModal: PropTypes.func,
+  handleCartItemChange: PropTypes.func,
 };
 
 export default StoreModal;

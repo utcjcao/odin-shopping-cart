@@ -1,0 +1,13 @@
+.store-container {
+    display: grid;
+    grid-template-columns: repeat(4, 300px);
+    grid-template-rows: repeat(4, 300px);
+    gap: 10px;
+    position: relative;
+}
+
+.store-item-modal {
+    position: fixed;
+    width: 400px;
+    background-color: grey;
+} 
